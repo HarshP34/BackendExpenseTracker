@@ -18,8 +18,8 @@
             <label for="password">Password</label><br>
             <input type="password" id="password" name="password"><br><br>
             <button id="login" type="submit">Login</button><br><br>
-            <a href="signup_page.html">Sign Up</a><br>
-            <a href="forgot_password.html">forgot password?</a>
+            <a href="./signup_page.html">Sign Up</a><br>
+            <a href="./forgot_password.html">forgot password?</a>
         </form>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.2/axios.min.js"></script>
@@ -49,7 +49,7 @@
                 {
                     try
                     {
-                        let res = await axios.post('http://localhost:3000/admin/user/login', loginDetail);
+                        let res = await axios.post('http://35.78.82.67:3000/admin/user/login', loginDetail);
                         if (res.status === 200) {
                             alert(`${res.data.message}`);
                             localStorage.setItem('token', res.data.token)
@@ -73,6 +73,7 @@
             }
         }
     </script>
+ 
 </body>
 
 </html>

@@ -85,7 +85,7 @@
                                 active[0].classList.remove('active');
                             pageBtn.classList.add('active');
                             userList.innerHTML = '';
-                            let res = await axios.get(`http://localhost:3000/admin/expense/${localStorage.getItem('expenseRows')}?page=${i}`, { headers: { 'Authentication': token } });
+                            let res = await axios.get(`http://35.78.82.67:3000/admin/expense/${localStorage.getItem('expenseRows')||2}?page=${i}`, { headers: { 'Authentication': token } });
                             res.data.expenses.forEach((expense) => {
                                 shownonScreen(expense, i);
                             })
@@ -106,7 +106,7 @@
 
         async function payment(e) {
             e.preventDefault();
-            const response = await axios.get('http://localhost:3000/purchase/premiummembership', { headers: { 'Authentication': token } });
+            const response = await axios.get('http://35.78.82.67:3000/purchase/premiummembership', { headers: { 'Authentication': token } });
             console.log(response);
             var options =
             {
@@ -123,7 +123,7 @@
                 },
                 // This handler function will handle the success payment
                 "handler": function (response) {
-                    axios.post('http://localhost:3000/purchase/updatetransactionstatus', {
+                    axios.post('http://35.78.82.67:3000/purchase/updatetransactionstatus', {
                         order_id: options.order_id,
                         payment_id: response.razorpay_payment_id,
                     }, { headers: { 'Authentication': token } }).then(() => {
@@ -170,7 +170,7 @@
             }
             else 
             {
-                editUser(myObj)
+               // editUser(myObj)
                 flag = 0;
             }
         }
@@ -191,7 +191,7 @@
             // li.appendChild(editBtn);
             userList.appendChild(li);
             userList.addEventListener('click', deleteuser);
-            userList.addEventListener('click', edituser);
+            //userList.addEventListener('click', edituser);
 
             function deleteuser(e) 
             {
@@ -203,29 +203,29 @@
                 }
             }
 
-            function edituser(e)
-             {
-                if(e.target==editBtn)
-                {
-                  let li=e.target.parentElement;
-                  flag=1;
-                  editAsync(li);
-                  userList.removeChild(li);     
-                }
-             }
+            // function edituser(e)
+            //  {
+            //     if(e.target==editBtn)
+            //     {
+            //       let li=e.target.parentElement;
+            //       flag=1;
+            //       editAsync(li);
+            //       userList.removeChild(li);     
+            //     }
+            //  }
 
         }
 
 
-        async function editUser(myObj) 
-        {
-            try 
-            {
-                let data2 = await axios.put(`http://localhost:3000/admin/edit-expense/${userId}`, myObj);
-                shownonScreen(data2.data);
-            } catch (err) { console.log(err) }
+        // async function editUser(myObj) 
+        // {
+        //     try 
+        //     {
+        //         let data2 = await axios.put(`http://35.78.82.67:3000/admin/edit-expense/${userId}`, myObj);
+        //         shownonScreen(data2.data);
+        //     } catch (err) { console.log(err) }
 
-        }
+        // }
 
 
         document.addEventListener('DOMContentLoaded', reload);
@@ -242,7 +242,7 @@
             try 
             {
                 expenseRows.value = localStorage.getItem('expenseRows');
-                let res = await axios.get(`http://localhost:3000/admin/expense/${localStorage.getItem('expenseRows')}`, { headers: { 'Authentication': token } });
+                let res = await axios.get(`http://35.78.82.67:3000/admin/expense/${localStorage.getItem('expenseRows')}`, { headers: { 'Authentication': token } });
                 if (res.data.ispremiumuser === true) 
                 {
                     buttonCreation(res.data.totalProducts);
@@ -252,7 +252,7 @@
                         shownonScreen(expense);
                     })
                     document.body.style.backgroundColor = 'grey';
-                    const data = await axios.get('http://localhost:3000/admin/allusers', { headers: { 'Authentication': token } });
+                    const data = await axios.get('http://35.78.82.67:3000/admin/allusers', { headers: { 'Authentication': token } });
                     let ul = document.createElement('ul');
                     ul.className = 'leaderboard';
                     ul.appendChild(document.createTextNode('LeaderBoard'));
@@ -291,7 +291,7 @@
         {
             try 
             {
-                let data = await axios.post('http://localhost:3000/admin/expense', myObj, { headers: { 'Authentication': token } })
+                let data = await axios.post('http://35.78.82.67:3000/admin/expense', myObj, { headers: { 'Authentication': token } })
                 shownonScreen(data.data);
             } catch (err) { console.log(err) }
         }
@@ -301,12 +301,12 @@
         {
             try 
             {
-                let res = await axios.get(`http://localhost:3000/admin/expense/${localStorage.getItem('expenseRows')}?page=${i}`, { headers: { 'Authentication': token } });
+                let res = await axios.get(`http://35.78.82.67:3000/admin/expense/${localStorage.getItem('expenseRows')}?page=${i}`, { headers: { 'Authentication': token } });
                 for (var i = 0; i < res.data.expenses.length; i++) 
                 {
                     if (li.innerHTML.indexOf(res.data.expenses[i].description) != -1) 
                     {
-                        axios.delete(`http://localhost:3000/admin/delete-expense/${res.data.expenses[i].id}`, { headers: { 'Authentication': token } });
+                        axios.delete(`http://35.78.82.67:3000/admin/delete-expense/${res.data.expenses[i].id}`, { headers: { 'Authentication': token } });
                     }
                 }
             } catch (err) { console.log(err) }
@@ -316,7 +316,7 @@
 
         // async function editAsync(li)
         //   {
-        //     let res=await axios.get('http://localhost:3000/admin/expense');
+        //     let res=await axios.get('http://35.78.82.67:3000/admin/expense');
         //     for(let i=0;i<res.data.length;i++)
         //         {
         //             if(li.innerHTML.indexOf(res.data[i].description)!=-1)
@@ -334,7 +334,7 @@
         {
             e.preventDefault();
             console.log(1);
-            axios.get('http://localhost:3000/admin/download', { headers: { 'Authentication': token } }).then((response) => {
+            axios.get('http://35.78.82.67:3000/admin/download', { headers: { 'Authentication': token } }).then((response) => {
                 if (response.status === 200) 
                 {
                     var a = document.createElement('a');

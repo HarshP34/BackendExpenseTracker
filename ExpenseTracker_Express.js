@@ -20,7 +20,7 @@ const cors=require('cors');
 const accessLogStream=fs.createWriteStream(path.join(__dirname,'access.log'),{flags:'a'}); 
 
 app.use(cors());
-app.use(helmet());
+//app.use(helmet());
 app.use(morgan('combined',{stream:accessLogStream}));
 
 //const privateKey=fs.readFileSync('server.key');
@@ -55,6 +55,10 @@ app.use('/admin',adminRoutes);
 app.use('/purchase',purchaseRoutes);
 app.use('/password',resetRoutes);
 
+app.use((req,res)=>{
+    console.log(req.url);
+    res.sendFile(path.join(__dirname,`${req.url}`));
+})
 sequelize
 //.sync({force:true})
 .sync()
